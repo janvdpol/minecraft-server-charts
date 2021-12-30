@@ -3,6 +3,6 @@
 ## Installation
 
 ```console
-helm repo add itzg https://itzg.github.io/minecraft-server-charts/
-helm search repo itzg
+helm repo add janvdpol https://janvdpol.github.io/minecraft-server-charts/
+helm search repo janvdpol
 ```
