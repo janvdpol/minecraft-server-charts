@@ -30,7 +30,7 @@ spec:
   {{- end }}
   ports:
   - name: proxy
-    port: 25565
+    port: 25577
     targetPort: proxy
     {{- if .Values.minecraftProxy.nodePort }}
     nodePort: {{ .Values.minecraftProxy.nodePort }}
