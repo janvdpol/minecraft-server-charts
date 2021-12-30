@@ -10,7 +10,7 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 Once Helm is set up properly, add the repo as follows:
 
 ```console
-helm repo add itzg https://janvdpol.github.io/minecraft-server-charts/
+helm repo add janvdpol https://janvdpol.github.io/minecraft-server-charts/
 ```
 
 You can then run `helm search repo janvdpol` to see the charts.
