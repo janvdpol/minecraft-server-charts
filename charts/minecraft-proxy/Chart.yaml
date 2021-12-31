@@ -1,15 +1,15 @@
 apiVersion: v1
 name: minecraft-proxy
-version: 2.4.1
+version: 2.4.2
 appVersion: SeeValues
 description: Minecraft proxy server (BungeeCord, Waterfall, Velocity, etc.)
 keywords:
   - proxy
   - game
   - server
-home: https://github.com/itzg/minecraft-server-charts
+home: https://github.com/janvdpol/minecraft-server-charts
 sources:
-  - https://github.com/itzg/minecraft-server-charts
+  - https://github.com/janvdpol/minecraft-server-charts
 maintainers:
   - name: chipwolf
     email: hello@chipwolf.uk
