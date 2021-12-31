@@ -16,6 +16,8 @@ maintainers:
   email: jeff@billimek.com
 - name: itzg
   email: itzgeoff@gmail.com
+- name: janvdpol
+  email: janvdpol@gmail.com  
 annotations:
   artifacthub.io/links: |
     - name: Image source
