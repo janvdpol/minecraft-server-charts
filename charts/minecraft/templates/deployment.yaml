@@ -24,6 +24,7 @@ spec:
     metadata:
       labels:
         app: {{ template "minecraft.fullname" . }}
+        bungeekube.dyescape.com/enabled: 'true'
       {{- if .Values.podAnnotations }}
       annotations:
         {{- range $key, $value := .Values.podAnnotations }}
