@@ -42,7 +42,7 @@ spec:
       containers:
       - name: {{ template "minecraft.fullname" . }}
         image: "{{ .Values.image }}:{{ .Values.imageTag }}"
-        imagePullPolicy: Always
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
         stdin: true
         tty: true
         resources:

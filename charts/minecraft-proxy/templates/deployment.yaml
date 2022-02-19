@@ -34,7 +34,7 @@ spec:
       containers:
       - name: {{ template "proxy.fullname" . }}
         image: "{{ .Values.image }}:{{ .Values.imageTag }}"
-        imagePullPolicy: Always
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
         resources: {{ toYaml .Values.resources | nindent 10 }}
         {{- if .Values.startupProbe.enabled }}
         startupProbe:
