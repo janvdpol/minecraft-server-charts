@@ -3,6 +3,11 @@ image: itzg/minecraft-server
 imageTag: latest
 imagePullSecret: ""
 
+# ### WARNING ###
+# Minecraft is not horizontally scalable, adjusting this will most likely break your setup.
+# ### WARNING ###
+replicaCount: 1
+
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ##
@@ -52,6 +57,16 @@ startupProbe:
 #         mountPath: /mnt/volume
 #         readOnly: true
 initContainers: []
+
+# sidecarContainers:
+#   - name: do-something
+#     image: busybox
+#     command: ['do', 'something']
+#     volumesMounts:
+#       - name: nfs
+#         mountPath: /mnt/volume
+#         readOnly: true
+sidecarContainers: []
 
 # extraVolumes:
 #   - volumeMounts:
@@ -161,6 +176,10 @@ minecraftServer:
   jvmOpts: ""
   # Options like -X that need to proceed general JVM options
   jvmXXOpts: ""
+  # By default, the server configuration will be created and set based on the following environment variables, but only the first time the server is started
+  # If you would like to override the server configuration each time the container starts up, you can set this to true
+  # see https://github.com/itzg/docker-minecraft-server#server-configuration
+  overrideServerProperties: false
   # DEPRECATED: use top-level rconServiceAnnotations instead
   serviceAnnotations: {}
   serviceType: ClusterIP
@@ -168,6 +187,7 @@ minecraftServer:
   nodePort:
   # Set the external port of the service, usefull when using the LoadBalancer service type
   servicePort: 25565
+  clusterIP:
   loadBalancerIP:
   # loadBalancerSourceRanges: []
   ## Set the externalTrafficPolicy in the Service to either Cluster or Local
@@ -184,6 +204,7 @@ minecraftServer:
     serviceType: ClusterIP
     ## Set the external port if the rcon serviceType is NodePort
     nodePort:
+    clusterIP:
     loadBalancerIP:
     # loadBalancerSourceRanges: []
     ## Set the externalTrafficPolicy in the Service to either Cluster or Local
@@ -202,6 +223,8 @@ minecraftServer:
     #     embedded: false
     #     annotations: {}
     #     type: ClusterIP
+    #     ## Set the external port if the rcon serviceType is NodePort
+    ##     nodePort:
     #     loadBalancerIP: ""
     #     loadBalancerSourceRanges: []
     #     externalTrafficPolicy: Cluster
@@ -265,3 +288,98 @@ deploymentAnnotations: {}
 serviceAnnotations: {}
 
 rconServiceAnnotations: {}
+
+# PLEASE NOTE! rcon must be enabled above!  It does NOT require a nodePort or loadBalancerIP
+mcbackup:
+  enabled: false
+
+  image: itzg/mc-backup
+  imageTag: latest
+
+  #  wait 2 minutes before starting
+  initialDelay: 2m
+
+  # ***set to 0 or smaller, script will run once and exit.  DO NOT SET TO 0 or smaller, this will cause K8s to kill your pod!***
+  # backupInterval="1.5d" -> backup every one and a half days (36 hours)
+  # backupInterval="2h 30m" -> backup every two and a half hours
+  backupInterval: 24h
+
+  # option lets you pause backups if no players are online.
+  pauseIfNoPlayers: "false"
+
+  # is set to a positive number, it'll delete old .tgz backup files from DEST_DIR. By default deletes backups older than a week.
+  pruneBackupsDays: 7
+
+  # Set to a negative value to retry indefinitely
+  rconRetries: 5
+  rconRetryInterval: 10s
+
+  # is a comma-separated list of glob(3) patterns to exclude from backups. By default excludes all jar files (plugins, server files),
+  # logs folder and cache (used by i.e. PaperMC server).
+  excludes: "*.jar,cache,logs"
+
+  # backup methods, see https://github.com/itzg/docker-mc-backup e.g. tar, rclone, restic
+  backupMethod: tar
+  # tar and rclone methods
+  destDir: /backups
+  # is a true/false flag that creates a symbolic link to the latest backup
+  linkLatest: "false"
+  # is the compression method used by tar. Valid value: gzip bzip2 zstd
+  compressMethod: "gzip"
+  # sets the parameters for zstd compression. The --long parameter affects RAM requirements for both compression and decompression
+  # (the default of 25 means 2^25 bytes = 32 MB).
+  zstdParameters: "-3 --long=25 --single-thread"
+  # the name of the remote you've configured in your rclone.conf
+  rcloneRemote:
+  rcloneDestDir:
+  rcloneCompressMethod: gzip
+
+  # see https://rclone.org/ for details
+  # this value is evaluated as a template
+  rcloneConfig:
+  # [remote]
+  # type = google cloud storage
+  # client_id =
+  # client_secret =
+  # token = {"AccessToken":"super","RefreshToken":"secret","Expiry":"date","Extra":null}
+  # project_number = 12345678
+  # object_acl = private
+  # bucket_acl = private
+
+  # if you prefer to create a secret from file (e.g. kubectl create secret generic my-rclone-config --from-file=~/.config/rclone/rclone.conf)
+  # rcloneConfigExistingSecret: my-rclone-config
+
+  resticRepository:
+  # variable to define a space separated list of additional restic tags. see https://hub.docker.com/r/itzg/mc-backup
+  resticAdditionalTags: "mc_backups"
+  # see https://restic.readthedocs.io/en/latest/060_forget.html
+  pruneResticRetention: "--keep-daily 7 --keep-weekly 5 --keep-monthly 12 --keep-yearly 75"
+
+  # At least one of RESTIC_PASSWORD* env variables need to be defined, see https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html
+  resticEnvs: []
+    # RESTIC_PASSWORD: restic-password
+
+  extraEnvs: []
+    # Can be set to the timezone to use for logging
+    # tz:
+
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 500m
+
+  persistence:
+    annotations: {}
+    ## minecraft data Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    # storageClass: "-"
+    backupDir:
+      # Set this to false if you don't care to persist state between restarts.
+      enabled: false
+      # existingClaim: nil
+      Size: 1Gi
