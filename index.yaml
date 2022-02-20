@@ -91,6 +91,36 @@ entries:
     urls:
     - https://github.com/janvdpol/minecraft-server-charts/releases/download/minecraft-3.6.3/minecraft-3.6.3.tgz
     version: 3.6.3
+  - annotations:
+      artifacthub.io/links: |
+        - name: Image source
+          url: https://github.com/itzg/docker-minecraft-server
+        - name: Image DockerHub
+          url: https://hub.docker.com/r/itzg/minecraft-server
+    apiVersion: v1
+    appVersion: SeeValues
+    created: "2022-02-20T07:27:57.714902018Z"
+    description: Minecraft server
+    digest: 40a656fdd4a29d40388929070d47c7a7e7d129b701f59f7d693bb732f8af962c
+    home: https://minecraft.net/
+    keywords:
+    - game
+    - server
+    maintainers:
+    - email: gtaylor@gc-taylor.com
+      name: gtaylor
+    - email: jeff@billimek.com
+      name: billimek
+    - email: itzgeoff@gmail.com
+      name: itzg
+    - email: janvdpol@gmail.com
+      name: janvdpol
+    name: minecraft
+    sources:
+    - https://github.com/janvdpol/minecraft-server-charts
+    urls:
+    - https://github.com/janvdpol/minecraft-server-charts/releases/download/minecraft-3.8.0.0/minecraft-3.8.0.0.tgz
+    version: 3.8.0.0
   minecraft-bedrock:
   - annotations:
       artifacthub.io/links: |
@@ -122,6 +152,36 @@ entries:
     urls:
     - https://github.com/janvdpol/minecraft-server-charts/releases/download/minecraft-bedrock-1.2.1/minecraft-bedrock-1.2.1.tgz
     version: 1.2.1
+  - annotations:
+      artifacthub.io/links: |
+        - name: Image source
+          url: https://github.com/itzg/docker-minecraft-bedrock-server
+        - name: Image DockerHub
+          url: https://hub.docker.com/r/itzg/minecraft-bedrock-server
+    apiVersion: v1
+    appVersion: SeeValues
+    created: "2022-02-20T07:27:57.825578663Z"
+    description: Minecraft server
+    digest: e087fe41a9c90023af0072a8d497dc51adf237746655680cd5fc01ef94acbf19
+    home: https://minecraft.net/
+    keywords:
+    - game
+    - server
+    maintainers:
+    - email: gtaylor@gc-taylor.com
+      name: gtaylor
+    - email: jeff@billimek.com
+      name: billimek
+    - email: itzgeoff@gmail.com
+      name: itzg
+    - email: janvdpol@gmail.com
+      name: janvdpol
+    name: minecraft-bedrock
+    sources:
+    - https://github.com/janvdpol/minecraft-server-charts
+    urls:
+    - https://github.com/janvdpol/minecraft-server-charts/releases/download/minecraft-bedrock-1.2.1.0/minecraft-bedrock-1.2.1.0.tgz
+    version: 1.2.1.0
   minecraft-proxy:
   - annotations:
       artifacthub.io/links: |
@@ -189,4 +249,37 @@ entries:
     urls:
     - https://github.com/janvdpol/minecraft-server-charts/releases/download/minecraft-proxy-2.4.2/minecraft-proxy-2.4.2.tgz
     version: 2.4.2
+  - annotations:
+      artifacthub.io/links: |
+        - name: Image source
+          url: https://github.com/itzg/docker-bungeecord
+        - name: Image DockerHub
+          url: https://hub.docker.com/r/itzg/bungeecord
+    apiVersion: v1
+    appVersion: SeeValues
+    created: "2022-02-20T07:27:57.937434722Z"
+    description: Minecraft proxy server (BungeeCord, Waterfall, Velocity, etc.)
+    digest: 9e2f96c90cd201543e54acd6accca7ee2a58419ee3ebec45eb0b1678a6c55514
+    home: https://github.com/janvdpol/minecraft-server-charts
+    keywords:
+    - proxy
+    - game
+    - server
+    maintainers:
+    - email: hello@chipwolf.uk
+      name: chipwolf
+    - email: gtaylor@gc-taylor.com
+      name: gtaylor
+    - email: jeff@billimek.com
+      name: billimek
+    - email: itzgeoff@gmail.com
+      name: itzg
+    - email: janvdpol@gmail.com
+      name: janvdpol
+    name: minecraft-proxy
+    sources:
+    - https://github.com/janvdpol/minecraft-server-charts
+    urls:
+    - https://github.com/janvdpol/minecraft-server-charts/releases/download/minecraft-proxy-2.5.0.0/minecraft-proxy-2.5.0.0.tgz
+    version: 2.5.0.0
 generated: "2021-12-31T10:19:36.033355687Z"
